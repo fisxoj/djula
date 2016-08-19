@@ -99,7 +99,6 @@ the result probably shouldn't be considered useful."
                      (apply-filters
                       ret filters)
                      ""))))
-              (princ (if dont-escape
-                         filtered-ret
-                         (escape-for-html filtered-ret))
-                     stream)))))))
+              (if dont-escape
+                  (princ filtered-ret stream)
+                  (escape-for-html filtered-ret stream))))))))

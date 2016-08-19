@@ -19,19 +19,18 @@
 	  (format out ".~A" (pathname-type path))))))
 
 ;;; edi
-(defun escape-for-html (string)
+(defun escape-for-html (string stream)
   "Escapes the characters #\\<, #\\>, #\\', #\\\", and #\\& for HTML output."
   (with-output-to-string (out)
-    (with-input-from-string (in string)
-      (loop for char = (read-char in nil nil)
-            while char
-            do (case char
-                 ((#\<) (write-string "&lt;" out))
-                 ((#\>) (write-string "&gt;" out))
-                 ((#\") (write-string "&quot;" out))
-                 ((#\') (write-string "&#039;" out))
-                 ((#\&) (write-string "&amp;" out))
-                 (otherwise (write-char char out)))))))
+    (loop for char across string
+       while char
+       do (case char
+               ((#\<) (write-string "&lt;" stream))
+               ((#\>) (write-string "&gt;" stream))
+               ((#\") (write-string "&quot;" stream))
+               ((#\') (write-string "&#039;" stream))
+               ((#\&) (write-string "&amp;" stream))
+               (otherwise (write-char char stream))))))
 
 ;;; edi
 (defun url-encode (string)
